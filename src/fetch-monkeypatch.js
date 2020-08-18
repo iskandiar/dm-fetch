@@ -1,7 +1,7 @@
 import html2canvas from 'html2canvas'
 
 const monkeypatchFetch = (url, participantKey, tracking = true) => {
-  const trackingURL = `${url}/tracking`
+  const trackingURL = `${url}/tracking?key=${participantKey}`
   const _fetch = fetch
 
   window.fetch = function () {
@@ -19,9 +19,10 @@ const monkeypatchFetch = (url, participantKey, tracking = true) => {
         _fetch(trackingURL, {
           method: 'POST',
           body: JSON.stringify({
-            preview: canvas.toDataURL(),
-            content,
-            participantKey
+            tracking: {
+              image: canvas.toDataURL(),
+              content
+            }
           })
         })
       });
