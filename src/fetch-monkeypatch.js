@@ -18,6 +18,9 @@ const monkeypatchFetch = (url, participantKey, tracking = true) => {
       html2canvas(document.body).then(canvas => {
         _fetch(trackingURL, {
           method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({
             tracking: {
               image: canvas.toDataURL(),
