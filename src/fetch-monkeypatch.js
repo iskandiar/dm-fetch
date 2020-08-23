@@ -14,20 +14,21 @@ const monkeypatchFetch = (url, participantKey, tracking = true) => {
 
     if (lastTrackingTimestamp < Date.now() - 120 * 1000 && tracking) {
       localStorage.setItem('lastTrackingTimestamp', Date.now())
-
-      html2canvas(document.body).then(canvas => {
-        _fetch(trackingURL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            tracking: {
-              image: canvas.toDataURL(),
-              content
-            }
+      document.addEventListener("DOMContentLoaded", function () {
+        html2canvas(document.body).then(canvas => {
+          _fetch(trackingURL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              tracking: {
+                image: canvas.toDataURL(),
+                content
+              }
+            })
           })
-        })
+        });
       });
     }
 
