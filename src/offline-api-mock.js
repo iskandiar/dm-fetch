@@ -8,12 +8,12 @@ const createdHelper = (date = new Date()) => ({
 })
 
 // TO-DO refactor to object parameter
-const tweetFactory = (text, subDays = 0, author = "@anonymous", isAuthor = false, likesCount) => {
+const tweetFactory = (text, subDays = 0, author = "@anonymous", isAuthor = false, likesCount = Math.floor(Math.random() * 5)) => {
   const date = subDaysMethod(new Date(), subDays)
   return ({
     text,
     isAuthor,
-    likesCount: likesCount || Math.floor(Math.random() * 5),
+    likesCount,
     likedByMe: false,
     author,
     ...createdHelper(date)
@@ -97,7 +97,7 @@ const configureOfflineServer = () => {
     seeds(server) {
       const serverDump = JSON.parse(localStorage.getItem('serverDump'))
 
-      if (serverDump) {
+      if (serverDump && serverDump.tweets.length > 0) {
         server.db.loadData(serverDump)
       } else {
         server.create("tweet", tweetFactory("Hi everyone!", 3))
@@ -112,6 +112,8 @@ const configureOfflineServer = () => {
   window.addEventListener("beforeunload", () => {
     localStorage.setItem('serverDump', JSON.stringify(server.db.dump()))
   })
+
+  window.mirageServer = server
 }
 
 export default configureOfflineServer
