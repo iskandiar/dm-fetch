@@ -7,12 +7,13 @@ const createdHelper = (date = new Date()) => ({
   createdAgo: formatDistance(date, new Date())
 })
 
-const tweetFactory = (text, subDays = 0, author = "@anonymous", isAuthor = false) => {
+// TO-DO refactor to object parameter
+const tweetFactory = (text, subDays = 0, author = "@anonymous", isAuthor = false, likesCount) => {
   const date = subDaysMethod(new Date(), subDays)
   return ({
     text,
     isAuthor,
-    likesCount: Math.floor(Math.random() * 5),
+    likesCount: likesCount || Math.floor(Math.random() * 5),
     likedByMe: false,
     author,
     ...createdHelper(date)
@@ -20,7 +21,7 @@ const tweetFactory = (text, subDays = 0, author = "@anonymous", isAuthor = false
 }
 
 const configureOfflineServer = () => {
-  new Server({
+  const server = new Server({
     models: {
       tweet: Model.extend({
         comments: hasMany(),
@@ -44,7 +45,7 @@ const configureOfflineServer = () => {
 
       this.post("/tweets", (schema, request) => {
         const attrs = JSON.parse(request.requestBody)
-        const newTweet = tweetFactory(attrs.tweet.text, 0, "@me", true)
+        const newTweet = tweetFactory(attrs.tweet.text, 0, "@me", true, 0)
 
         return schema.tweets.create(newTweet)
       })
@@ -94,12 +95,22 @@ const configureOfflineServer = () => {
     },
 
     seeds(server) {
-      server.create("tweet", tweetFactory("Hi everyone!", 3))
-      server.create("tweet", tweetFactory("We are devmeetings!", 2))
-      const lastTweet = server.create("tweet", tweetFactory("Let the fun begin!", 1))
+      const serverDump = JSON.parse(localStorage.getItem('serverDump'))
 
-      server.create("comment", { tweet: lastTweet, text: "Now You Can See Me.", ...createdHelper(), author: "@anonymous", isAuthor: false })
+      if (serverDump) {
+        server.db.loadData(serverDump)
+      } else {
+        server.create("tweet", tweetFactory("Hi everyone!", 3))
+        server.create("tweet", tweetFactory("We are devmeetings!", 2))
+        const lastTweet = server.create("tweet", tweetFactory("Let the fun begin!", 1))
+
+        server.create("comment", { tweet: lastTweet, text: "Now You Can See Me.", ...createdHelper(), author: "@anonymous", isAuthor: false })
+      }
     },
+  })
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem('serverDump', JSON.stringify(server.db.dump()))
   })
 }
 

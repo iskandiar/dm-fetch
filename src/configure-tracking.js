@@ -8,6 +8,8 @@ const configureTracking = (url, participantKey) => {
   setInterval(() => {
     const lastTrackingTimestamp = localStorage.getItem('lastTrackingTimestamp')
 
+    //TO-DO generate hash to not send if someon leave it open 
+
     if (lastTrackingTimestamp < Date.now() - TRACK_FREQ * 1000) {
       localStorage.setItem('lastTrackingTimestamp', Date.now())
 
