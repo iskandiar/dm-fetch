@@ -1,7 +1,7 @@
 import monkeypatchFetch from './fetch-monkeypatch'
 import configureTracking from './configure-tracking'
 
-const configureLiveApi = (url, participantKey, tracking = false) => {
+const configureLiveApi = (url, participantKey, tracking = true) => {
   monkeypatchFetch(url, participantKey)
 
   if(tracking) {
