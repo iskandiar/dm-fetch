@@ -1,15 +1,13 @@
 {
   "name": "dm-fetch",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Devmeeting's special version of window.fetch method",
   "main": "index.js",
   "author": "Aleksander Maj",
   "license": "ISC",
   "dependencies": {
     "date-fns": "^2.15.0",
-    "html2canvas": "^1.0.0-rc.5"
-  },
-  "devDependencies": {
+    "html2canvas": "^1.0.0-rc.5",
     "miragejs": "^0.1.40"
   }
 }
