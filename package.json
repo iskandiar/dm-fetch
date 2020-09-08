@@ -1,7 +1,7 @@
 {
   "name": "dm-fetch",
-  "version": "1.0.12",
-  "description": "Devmeeting's special version of window.fetch method",
+  "version": "1.0.13",
+  "description": "Devmeeting's special version of window.fetch method with offline mock API",
   "main": "index.js",
   "author": "Aleksander Maj",
   "license": "ISC",

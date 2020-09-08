@@ -34,8 +34,22 @@ const configureOfflineServer = () => {
     serializers: {
       tweet: Serializer.extend({
         include: ["comments"],
-        embed: true
+        embed: true,
+        root: false,
+        serialize(_object, request) {
+          const json = Serializer.prototype.serialize.apply(this, arguments);
+
+          // The only option to change order of response (GET /tweets)
+          if (request.method === 'GET' && request.url === '/tweets') {
+            return json.reverse()
+          }
+          return json
+        }
       }),
+      comment: Serializer.extend({
+        embed: true,
+        root: false
+      })
     },
 
     routes() {
