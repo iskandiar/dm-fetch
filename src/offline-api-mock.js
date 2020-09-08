@@ -79,7 +79,7 @@ const configureOfflineServer = () => {
         return tweet.update('likesCount', tweet.attrs.likesCount + 1).update('likedByMe', true)
       })
 
-      this.put('/tweets/:id/unlike', (schema, request) => {
+      this.put('/tweets/:id/dislike', (schema, request) => {
         const id = request.params.id
         const tweet = schema.tweets.find(id)
 
