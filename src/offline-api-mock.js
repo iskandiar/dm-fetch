@@ -115,7 +115,7 @@ const configureOfflineServer = () => {
         server.db.loadData(serverDump)
       } else {
         server.create("tweet", tweetFactory("Hi everyone!", 3))
-        server.create("tweet", tweetFactory("We are devmeetings!", 2))
+        server.create("tweet", tweetFactory("We are the champions!", 2))
         const lastTweet = server.create("tweet", tweetFactory("Let the fun begin!", 1))
 
         server.create("comment", { tweet: lastTweet, text: "Now You Can See Me.", ...createdHelper(), author: "@anonymous", isAuthor: false })
