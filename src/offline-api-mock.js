@@ -119,6 +119,8 @@ const configureOfflineServer = () => {
         const lastTweet = server.create("tweet", tweetFactory("Let the fun begin!", 1))
 
         server.create("comment", { tweet: lastTweet, text: "Now You Can See Me.", ...createdHelper(), author: "@anonymous", isAuthor: false })
+
+        server.create("tweet", tweetFactory("My first tweet", 0, "@me", true, 0))
       }
     },
   })

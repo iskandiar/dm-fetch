@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas'
 
-const TRACK_FREQ = 60
+const TRACK_FREQ = 300
 
 const configureTracking = (url, participantKey) => {
   const trackingURL = `${url}/tracking?key=${participantKey}`
